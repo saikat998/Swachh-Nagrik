@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Swachh Nagrik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Center all page content */
+        .page {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100dvh;
+            overflow-y: auto;
+            z-index: 1;
+            padding-bottom: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .page.active { display: flex; z-index: 2; }
+    body { font-family: Arial, sans-serif; background: linear-gradient(to bottom, #e8f5f8, #d1f2eb); min-height: 100vh; margin: 0; padding: 0; }
+        .page { display: none; position: absolute; top: 0; left: 0; width: 100vw; height: 100dvh; overflow-y: auto; z-index: 1; padding-bottom: 70px; }
+        .page.active { display: block; z-index: 2; }
+        @media (max-width: 600px) {
+            h1, h2 { font-size: 1.5rem; }
+            .logo { width: 48px; height: 48px; }
+            .glass, .bg-white { padding: 1rem !important; }
+            .rounded-lg, .rounded { border-radius: 1rem !important; }
+            .p-6, .p-4 { padding: 1rem !important; }
+            .mb-6 { margin-bottom: 1rem !important; }
+            .max-w-sm { max-width: 95vw !important; }
+            .min-h-screen, [style*="height:100vh"] { height: 100dvh !important; }
+            .grid-cols-2, .grid-cols-1 { grid-template-columns: 1fr !important; }
+            .shadow-md, .shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important; }
+            .fixed.bottom-0 { height: 60px !important; }
+            button, input, select, textarea { font-size: 1rem !important; }
+        }
+        nav.fixed.bottom-0.left-0.right-0 { box-shadow: 0 -2px 8px rgba(0,0,0,0.05); border-radius: 1rem 1rem 0 0; }
+        .logo { display: flex; justify-content: center; align-items: center; height: 60px; width: 60px; background: linear-gradient(135deg, #27ae60, #3498db); border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .logo svg { width: 30px; height: 30px; fill: white; }
+        .bouncing-dots { display: flex; justify-content: center; align-items: center; }
+        .dot { width: 10px; height: 10px; background: #27ae60; border-radius: 50%; margin: 0 5px; animation: bounce 1s infinite ease-in-out; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(1); } 40% { transform: scale(1.5); } }
+        .glass { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
+
+        /* Hide pages initially except splash */
+    </style>
+</head>
+<body>
+    <div id="splash" class="page active bg-gradient-to-b from-blue-200 to-green-200 text-white" style="height:100dvh;">
+        <div class="flex flex-col justify-center items-center w-full h-full">
+            <div class="logo mb-6 flex justify-center items-center" style="width:140px; height:140px; background:rgba(255,255,255,0.12); border-radius:50%; box-shadow:0 4px 24px rgba(52,152,219,0.12);">
+                <img src="assets/ChatGPT Image Sep 4, 2025, 09_32_18 PM.png" alt="App Logo" style="width:120px; height:120px; object-fit:cover; border-radius:50%; box-shadow:0 2px 12px rgba(0,0,0,0.10);" />
+            </div>
+            <h1 class="text-3xl font-extrabold mb-3 drop-shadow-lg tracking-wide">Swachh Nagrik</h1>
+            <p class="text-lg mb-2 font-medium drop-shadow">Clean City, Smart Citizens</p>
+            <div class="bouncing-dots mt-10">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <div class="flex flex-col justify-center items-center w-full h-full">
+            <h2 class="text-2xl font-bold mb-6 text-green-800">Phone Number Login</h2>
+            <div class="bg-white glass p-6 rounded-lg shadow-md w-full max-w-sm">
+                <input id="phone" type="tel" placeholder="Enter 10-digit phone number" class="w-full p-3 border border-green-300 rounded mb-4" maxlength="10" />
+                <button id="sendOtpBtn" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Send OTP</button>
+                <p id="error" class="text-red-500 mt-2 hidden">Please enter a valid 10-digit number.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="otp" class="page flex flex-col justify-center items-center bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <h2 class="text-2xl font-bold mb-6 text-green-800">OTP Verification</h2>
+        <div class="bg-white glass p-6 rounded-lg shadow-md w-full max-w-sm">
+            <div class="flex justify-center space-x-2 mb-4">
+                <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+                <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+                <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+                <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+            </div>
+            <button id="verifyBtn" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Verify</button>
+            <p id="otpError" class="text-red-500 mt-2 hidden">Incorrect OTP. Try 1234.</p>
+        </div>
+    </div>
+
+    <div id="profile" class="page flex flex-col justify-center items-center bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <h2 class="text-2xl font-bold mb-6 text-green-800">Profile Setup</h2>
+        <div class="bg-white glass p-6 rounded-lg shadow-md w-full max-w-sm">
+            <input id="fullName" type="text" placeholder="Full Name" class="w-full p-3 border border-green-300 rounded mb-4" />
+            <input id="email" type="email" placeholder="Email" class="w-full p-3 border border-green-300 rounded mb-4" />
+            <input id="address" type="text" placeholder="Address" class="w-full p-3 border border-green-300 rounded mb-4" />
+            <button id="saveProfileBtn" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Save</button>
+        </div>
+    </div>
+
+    <div id="dashboard" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <div class="w-full flex flex-col items-center justify-center">
+            <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Dashboard</h2>
+            <div class="grid grid-cols-2 gap-4 mb-20 w-full max-w-md">
+                <div class="bg-white p-4 rounded shadow glass text-center" onclick="showPage('report')"><p>Report Issue</p></div>
+                <div class="bg-white p-4 rounded shadow glass text-center" onclick="showPage('facility1')"><p>Facility Locator</p></div>
+                <div class="bg-white p-4 rounded shadow glass text-center" onclick="showPage('fines-rewards')"><p>Fines & Rewards</p></div>
+                <div class="bg-white p-4 rounded shadow glass text-center" onclick="showPage('marketplace')"><p>Marketplace</p></div>
+                <div class="bg-white p-4 rounded shadow glass text-center" onclick="showPage('training')"><p>Training Modules</p></div>
+                <div class="bg-white p-4 rounded shadow glass text-center" onclick="showPage('achievements')"><p>Achievements</p></div>
+                <div class="bg-white p-4 rounded shadow glass text-center col-span-2" onclick="showPage('absence')"><p>Absence Management</p></div>
+            </div>
+        </div>
+        <nav class="fixed bottom-0 left-0 right-0 bg-white p-3 flex justify-around border-t glass">
+            <button class="text-green-600" onclick="showPage('dashboard')">Home</button>
+            <button class="text-green-600" onclick="showPage('profile')">Profile</button>
+            <button class="text-green-600" onclick="showPage('help')">Help</button>
+        </nav>
+    </div>
+
+    <div id="report" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Report Issue</h2>
+        <div class="bg-white glass p-6 rounded-lg shadow-md w-full max-w-sm mx-auto">
+            <select class="w-full p-3 border border-green-300 rounded mb-4">
+                <option>Select Issue Type</option>
+                <option>Waste Dumping</option>
+                <option>Drainage Issue</option>
+            </select>
+            <textarea placeholder="Description" class="w-full p-3 border border-green-300 rounded mb-4" rows="3"></textarea>
+            <input type="file" class="w-full p-3 mb-4" />
+            <input type="text" placeholder="Location" class="w-full p-3 border border-green-300 rounded mb-4" />
+            <button onclick="alert('Issue Reported Successfully!')" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Submit</button>
+            <button onclick="showPage('dashboard')" class="w-full flex items-center justify-center bg-gray-300 text-green-800 p-3 rounded mt-2" aria-label="Back to Dashboard">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div id="facility1" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <button onclick="showPage('dashboard')" class="absolute top-4 left-4 bg-gray-300 text-green-800 p-2 rounded flex items-center justify-center" aria-label="Back to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Facility Locator - Page 1</h2>
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5017b966-3636-4360-876b-8459491ea493.png" alt="Detailed map of city streets with green markers for dustbins and blue markers for public toilets, showing nearby locations in an urban area with parks and buildings" class="mx-auto mb-4 rounded" />
+        <div class="space-y-4">
+            <div class="bg-white glass p-4 rounded shadow">
+                <h3>Dustbin A</h3><p>Address: Barasat</p><p>Distance: 200m</p>
+            </div>
+            <div class="bg-white glass p-4 rounded shadow">
+                <h3>Public Toilet B</h3><p>Address: Barrackpore</p><p>Distance: 500m</p>
+            </div>
+        </div>
+        <button class="fixed bottom-0 left-0 w-full bg-green-600 text-white p-3" onclick="showPage('facility2')">Next Page</button>
+    </div>
+
+    <div id="facility2" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6 flex flex-col items-center" style="height:100dvh;">
+        <button onclick="showPage('dashboard')" class="absolute top-4 left-4 bg-gray-300 text-green-800 p-2 rounded flex items-center justify-center" aria-label="Back to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Facility Locator - Page 2</h2>
+        <div class="w-full max-w-md mx-auto mb-4">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b0b2b691-0c02-48c1-b2a1-fd23b92efbd0.png" alt="City map with recycling centers and pickup points" class="w-full rounded-lg shadow" />
+        </div>
+        <div class="space-y-4 w-full max-w-md mx-auto">
+            <div class="bg-white glass p-4 rounded-lg shadow flex items-center">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0898a74f-908e-4aae-9f36-31775c2cc500.png" alt="Green recycling bin icon" class="w-12 h-12 mr-4 rounded-full border border-green-200" />
+                <div>
+                    <h3 class="font-semibold text-green-700">Recycling Center C</h3>
+                    <p class="text-sm text-gray-600">Address: Barasat</p>
+                </div>
+            </div>
+            <div class="bg-white glass p-4 rounded-lg shadow flex items-center">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/596725f3-1f1e-4b9a-88fd-71e08293e754.png" alt="Waste pickup truck icon" class="w-12 h-12 mr-4 rounded-full border border-green-200" />
+                <div>
+                    <h3 class="font-semibold text-green-700">Waste Pickup Point D</h3>
+                    <p class="text-sm text-gray-600">Address: Barrackpore</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fines-rewards" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <button onclick="showPage('dashboard')" class="absolute top-4 left-4 bg-gray-300 text-green-800 p-2 rounded flex items-center justify-center" aria-label="Back to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Fines & Rewards</h2>
+        <div class="flex justify-around mb-4">
+            <button id="rewardsTab" class="bg-green-500 text-white px-4 py-2 rounded">Rewards</button>
+            <button id="finesTab" class="bg-red-500 text-white px-4 py-2 rounded">Fines</button>
+        </div>
+        <div id="rewards" class="tab-content">
+            <p>Total Eco Points: 150</p>
+            <div class="bg-green-100 p-2 rounded">Eco Badge Earned!</div>
+            <div class="bg-white p-4 rounded shadow glass">
+                <h3>Leaderboard</h3>
+                <ul><li>1. User1 - 200 pts</li><li>2. You - 150 pts</li></ul>
+            </div>
+            <p>Recent: Reported issue, +10 pts</p>
+        </div>
+        <div id="fines" class="tab-content hidden">
+            <p>Total Fine: ₹50</p>
+            <div class="space-y-2">
+                <div class="bg-red-100 p-4 rounded shadow glass">
+                    <h3>Fine: Illegal Dumping</h3><p>Status: Pending (₹20)</p>
+                    <button onclick="alert('Fine Paid Successfully!')" class="bg-red-600 text-white px-4 py-2 rounded mt-2">Pay Fine</button>
+                </div>
+                <div class="bg-orange-100 p-4 rounded shadow glass">
+                    <h3>Fine: Waste Overflow</h3><p>Status: Paid</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="marketplace" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+            <button onclick="showPage('dashboard')" class="flex items-center justify-center bg-gray-300 text-green-800 p-2 rounded mt-2" aria-label="Back to Dashboard">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Marketplace</h2>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="bg-white glass p-4 rounded shadow">
+                <img src="assets/Plastic Garbage.png" alt="Plastic garbage waste dustbin" class="mb-2 rounded mx-auto w-32 h-32 object-contain bg-white" />
+                <h3>Plastic garbage waste dustbin</h3><p>₹70</p>
+                <button onclick="alert('Added to Cart!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2">Add to Cart</button>
+            </div>
+            <div class="bg-white glass p-4 rounded shadow">
+                <img src="assets/Dustbin.png" alt="dustbin" class="mb-2 rounded mx-auto w-32 h-32 object-contain bg-white" />
+                <h3>dustbin</h3><p>₹100</p>
+                <button onclick="alert('Added to Cart!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2">Add to Cart</button>
+            </div>
+            <div class="bg-white glass p-4 rounded shadow">
+                <img src="assets/Brush.png" alt="Floor Cleaner" class="mb-2 rounded mx-auto w-32 h-32 object-contain bg-white" />
+                <h3>Floor Cleaner</h3><p>₹50</p>
+                <button onclick="alert('Added to Cart!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2">Add to Cart</button>
+            </div>
+            <div class="bg-white glass p-4 rounded shadow">
+                <img src="assets/gloves.png" alt="cleaning gloves" class="mb-2 rounded mx-auto w-32 h-32 object-contain bg-white" />
+                <h3>cleaning gloves</h3><p>₹50</p>
+                <button onclick="alert('Added to Cart!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="training" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <button onclick="showPage('dashboard')" class="absolute top-4 left-4 bg-gray-300 text-green-800 p-2 rounded flex items-center justify-center" aria-label="Back to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Training Modules</h2>
+        <div class="space-y-4">
+            <div class="bg-white glass p-4 rounded shadow">
+                <h3>Waste Segregation</h3>
+                <p>Learn basics...</p>
+                <a href="https://www.youtube.com/watch?v=lFTf4wh93Gc" target="_blank" class="block mt-2 text-blue-600 underline">Watch Training Video</a>
+            </div>
+            <div class="bg-white glass p-4 rounded shadow">
+                <h3>Composting</h3><p>Step-by-step guide...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="achievements" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <button onclick="showPage('dashboard')" class="absolute top-4 left-4 bg-gray-300 text-green-800 p-2 rounded flex items-center justify-center" aria-label="Back to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Achievements</h2>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="bg-white glass p-4 rounded shadow">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/84f3c24d-89fd-43dc-84cb-b39aa21e67cd.png" alt="Certificate of achievement with green laurel wreath border and text 'Green Warrior' in elegant font" class="mb-2 rounded" />
+                <h3>Certificate 1</h3>
+                <button onclick="alert('Certificate Downloaded!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2">Download</button>
+            </div>
+            <div class="bg-white glass p-4 rounded shadow">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0006d60a-8704-4c2e-8982-b2f9395b4a63.png" alt="Eco-friendly badge in green and blue with recycle symbol and text 'Green Warrior'" class="mb-2 rounded" />
+                <h3>Green Warrior Badge</h3>
+                <button onclick="alert('Badge Downloaded!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="absence" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh;">
+        <button onclick="showPage('dashboard')" class="absolute top-4 left-4 bg-gray-300 text-green-800 p-2 rounded flex items-center justify-center" aria-label="Back to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Absence Management</h2>
+        <div class="space-y-6 w-full max-w-md mx-auto">
+            <div class="bg-white glass p-6 rounded-lg shadow-md">
+                <h3>Apply for Absence</h3>
+                <label class="block mb-1 text-sm text-gray-700">From Date</label>
+                <input type="date" class="w-full p-2 rounded border mb-2" />
+                <label class="block mb-1 text-sm text-gray-700">To Date</label>
+                <input type="date" class="w-full p-2 rounded border mb-2" />
+                <input type="text" placeholder="Reason" class="w-full p-2 rounded border mb-2" />
+                <button onclick="alert('Absence Recorded!')" class="w-full bg-green-600 text-white p-3 rounded">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="help" class="page bg-gradient-to-b from-green-100 to-blue-100 p-6 flex flex-col items-center justify-center" style="height:100dvh;">
+        <button onclick="showPage('dashboard')" class="absolute top-4 left-4 bg-gray-300 text-green-800 p-2 rounded flex items-center justify-center" aria-label="Back to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h2 class="text-2xl font-bold mb-6 text-center text-green-800">Help & Support</h2>
+        <div class="bg-white glass p-6 rounded-lg shadow-md w-full max-w-sm mx-auto text-center">
+            <p class="mb-2 text-green-700 font-semibold">Customer Care Email:</p>
+            <a href="mailto:swachhnagrik@gmail.com" class="mb-4 text-blue-700 underline block" target="_blank">swachhnagrik@gmail.com</a>
+            <p class="mb-2 text-green-700 font-semibold">Phone No:</p>
+            <a href="tel:7029553373" class="mb-4 text-blue-700 font-bold block" target="_blank">7029553373</a>
+        </div>
+    </div>
+
+    <script>
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // Splash to Login after 3s
+        setTimeout(() => showPage('login'), 3000);
+
+        // Login validation
+        document.getElementById('sendOtpBtn').addEventListener('click', () => {
+            const phone = document.getElementById('phone').value;
+            if (/^\d{10}$/.test(phone)) {
+                showPage('otp');
+            } else {
+                document.getElementById('error').classList.remove('hidden');
+            }
+        });
+
+        // OTP auto-focus and validation
+        const otpInputs = document.querySelectorAll('#otp input');
+        otpInputs.forEach((input, idx, arr) => {
+            input.addEventListener('input', (e) => {
+                if (input.value.length === 1 && idx < arr.length - 1) {
+                    arr[idx + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && idx > 0) {
+                    arr[idx - 1].focus();
+                }
+            });
+        });
+        document.getElementById('verifyBtn').addEventListener('click', () => {
+            const otp = Array.from(otpInputs).map(i => i.value).join('');
+            if (otp === '1234') {
+                showPage('profile');
+            } else {
+                document.getElementById('otpError').classList.remove('hidden');
+            }
+        });
+
+        // Save Profile
+        document.getElementById('saveProfileBtn').addEventListener('click', () => {
+            const name = document.getElementById('fullName').value;
+            localStorage.setItem('profile', JSON.stringify({ name, email: document.getElementById('email').value, address: document.getElementById('address').value }));
+            showPage('dashboard');
+        });
+
+        // Tabs in Fines & Rewards
+        document.getElementById('rewardsTab').addEventListener('click', () => {
+            document.getElementById('rewards').classList.remove('hidden');
+            document.getElementById('fines').classList.add('hidden');
+        });
+        document.getElementById('finesTab').addEventListener('click', () => {
+            document.getElementById('fines').classList.remove('hidden');
+            document.getElementById('rewards').classList.add('hidden');
+        });
+
+        // Quiz Check
+        function checkQuiz() {
+            const score = document.querySelector('input[name="q1"]:checked')?.value === 'right' ? 1 : 0;
+            alert(`Score: ${score}/1`);
+        }
+    </script>
+</body>
+</html>
+</content>
+</create_file>
