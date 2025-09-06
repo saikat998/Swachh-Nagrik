@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Swachh Nagrik</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <style>
         /* Center all page content */
         .page {
@@ -118,9 +119,15 @@
             </div>
         </div>
         <nav class="fixed bottom-0 left-0 right-0 bg-white p-3 flex justify-around border-t glass">
-            <button class="text-green-600" onclick="showPage('dashboard')">Home</button>
-            <button class="text-green-600" onclick="showPage('profile')">Profile</button>
-            <button class="text-green-600" onclick="showPage('help')">Help</button>
+            <button class="text-green-600 flex flex-col items-center" onclick="showPage('dashboard')" aria-label="Home">
+                <i class="fa-solid fa-house fa-lg mb-0.5"></i>
+            </button>
+            <button class="text-green-600 flex flex-col items-center" onclick="showPage('profile')" aria-label="Profile">
+                <i class="fa-solid fa-circle-user fa-lg mb-0.5"></i>
+            </button>
+            <button class="text-green-600 flex flex-col items-center" onclick="showPage('help')" aria-label="Help">
+                <i class="fa-solid fa-circle-info fa-lg mb-0.5"></i>
+            </button>
         </nav>
     </div>
 
