@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Swachh Nagrik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Smooth fade-in for page transitions */
+        .page.active {
+            animation: fadeIn 0.7s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Button hover scale animation */
+        button {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: scale(1.07);
+            box-shadow: 0 4px 16px rgba(52,152,219,0.15);
+        }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(to bottom, #e8f5f8, #d1f2eb); 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 0; 
+            overflow-x: hidden;
+        }
+        .page {
+            display: none;
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            overflow-y: auto;
+            /* Remove z-index so nav bar is always on top */
+            padding-bottom: 100px; /* Space for nav */
+        }
+        .page.active { 
+            display: flex; /* Changed to flex for centering content */
+            flex-direction: column;
+        }
+        /* Hide scrollbar */
+        .page {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .page::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+        @media (max-width: 600px) {
+            h1, h2 { font-size: 1.5rem; }
+            .logo { width: 48px; height: 48px; }
+            .glass, .bg-white { padding: 1rem !important; }
+            .rounded-lg, .rounded { border-radius: 1rem !important; }
+            .p-6, .p-4 { padding: 1rem !important; }
+            .mb-6 { margin-bottom: 1rem !important; }
+            .max-w-sm { max-width: 95vw !important; }
+            .min-h-screen, [style*="height:100vh"] { min-height: 100dvh !important; }
+            .grid-cols-2, .grid-cols-1 { grid-template-columns: 1fr !important; }
+            .shadow-md, .shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important; }
+            nav.fixed { height: 60px !important; }
+            button, input, select, textarea { font-size: 1rem !important; }
+        }
+        nav.fixed.bottom-0 { 
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05); 
+            border-radius: 1rem 1rem 0 0; 
+            z-index: 1000;
+        }
+        .logo { 
+            display: flex; justify-content: center; align-items: center; height: 60px; width: 60px; 
+            background: linear-gradient(135deg, #27ae60, #3498db); 
+            border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        .bouncing-dots { display: flex; justify-content: center; align-items: center; }
+        .dot { 
+            width: 10px; height: 10px; background: #27ae60; 
+            border-radius: 50%; margin: 0 5px; animation: bounce 1s infinite ease-in-out; 
+        }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(1); } 40% { transform: scale(1.5); } }
+    </style>
+</head>
+<body>
+    <div id="splash" class="page active justify-center items-center bg-gradient-to-b from-blue-200 to-green-200 text-white">
+        <div class="flex flex-col justify-center items-center w-full h-full text-center">
+             <div class="logo mb-6 flex justify-center items-center" style="width:140px; height:140px; background:rgba(255,255,255,0.12); border-radius:50%; box-shadow:0 4px 24px rgba(52,152,219,0.12);">
+                 <img src="assets/ChatGPT Image Sep 4, 2025, 09_32_18 PM.png" alt="App Logo" style="width:120px; height:120px; object-fit:cover; border-radius:50%; box-shadow:0 2px 12px rgba(0,0,0,0.10);" />
+            </div>
+            <h1 class="text-3xl font-extrabold mb-3 drop-shadow-lg tracking-wide">Swachh Nagrik</h1>
+            <p class="text-lg mb-2 font-medium drop-shadow">Clean City, Smart Citizens</p>
+            <div class="bouncing-dots mt-10">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login" class="page justify-center items-center bg-gradient-to-b from-green-100 to-blue-100 p-6">
+        <div class="w-full max-w-sm text-center">
+            <div class="flex justify-center items-center mb-6">
+                 <div class="logo" style="width:110px; height:110px; background:rgba(255,255,255,0.15); border-radius:50%; box-shadow:0 4px 24px rgba(52,152,219,0.12); display:flex; align-items:center; justify-content:center;">
+                     <img src="assets/ChatGPT Image Sep 4, 2025, 09_32_18 PM.png" alt="App Logo" style="width:90px; height:90px; object-fit:cover; border-radius:50%; box-shadow:0 2px 12px rgba(0,0,0,0.10);" />
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold mb-6 text-green-800">Phone Number Login</h2>
+            <div class="bg-white glass p-6 rounded-lg shadow-md w-full">
+                <input id="phone" type="tel" placeholder="Enter 10-digit phone number" class="w-full p-3 border border-green-300 rounded mb-4" maxlength="10" />
+                <button id="sendOtpBtn" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Send OTP</button>
+                <p id="error" class="text-red-500 mt-2 hidden">Please enter a valid 10-digit number.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="otp" class="page justify-center items-center bg-gradient-to-b from-green-100 to-blue-100 p-6">
+         <div class="w-full max-w-sm text-center">
+            <h2 class="text-2xl font-bold mb-6 text-green-800">OTP Verification</h2>
+            <div class="bg-white glass p-6 rounded-lg shadow-md w-full">
+                <div id="otp-inputs" class="flex justify-center space-x-2 mb-4">
+                    <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+                    <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+                    <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+                    <input type="text" maxlength="1" class="w-12 h-12 border border-green-300 rounded text-center text-lg" />
+                </div>
+                <button id="verifyBtn" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Verify</button>
+                <p id="otpError" class="text-red-500 mt-2 hidden">Incorrect OTP. Try 1234.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-setup" class="page justify-center items-center bg-gradient-to-b from-green-100 to-blue-100 p-6">
+        <div class="w-full max-w-sm text-center">
+            <h2 class="text-2xl font-bold mb-6 text-green-800">Profile Setup</h2>
+            <div class="bg-white glass p-6 rounded-lg shadow-md w-full">
+                <input id="fullName" type="text" placeholder="Full Name" class="w-full p-3 border border-green-300 rounded mb-4" />
+                <input id="email" type="email" placeholder="Email" class="w-full p-3 border border-green-300 rounded mb-4" />
+                <input id="address" type="text" placeholder="Address" class="w-full p-3 border border-green-300 rounded mb-4" />
+                <button id="saveProfileBtn" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="profile-view" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6">
+    <div class="w-full max-w-md mx-auto mb-32">
+             <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-green-800">My Profile</h2>
+                 <button onclick="window.app.showPage('dashboard')" class="text-green-800" aria-label="Back to Dashboard">
+                     <i class="fa-solid fa-times fa-lg"></i>
+                </button>
+            </div>
+            <div class="bg-white glass p-6 rounded-lg shadow-md w-full mb-6">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-600">Full Name</label>
+                    <p id="viewFullName" class="text-lg text-green-900"></p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-600">Email</label>
+                    <p id="viewEmail" class="text-lg text-green-900"></p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-600">Address</label>
+                    <p id="viewAddress" class="text-lg text-green-900"></p>
+                </div>
+                 <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-600">Phone</label>
+                    <p id="viewPhone" class="text-lg text-green-900"></p>
+                </div>
+            </div>
+            <button id="logoutBtn" class="w-full bg-red-600 text-white p-3 rounded hover:bg-red-700">Logout</button>
+        </div>
+    </div>
+
+    <div id="dashboard" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6" style="min-height: 100vh; padding-bottom: 140px; margin-bottom: 120px;">
+    <div class="w-full max-w-md mx-auto mb-32">
+            <h2 id="dashboard-welcome" class="text-2xl font-bold mb-2 text-green-800">Welcome!</h2>
+            <p class="text-gray-600 mb-6">Let's make our city cleaner.</p>
+            
+            <div class="bg-white/50 glass p-4 rounded-lg shadow-md w-full mb-6 flex justify-around text-center">
+                <div>
+                    <p class="text-2xl font-bold text-green-700" id="dashboard-points">0</p>
+                    <p class="text-sm text-gray-600">Eco Points</p>
+                </div>
+                <div>
+                    <p class="text-2xl font-bold text-green-700" id="dashboard-reports">0</p>
+                    <p class="text-sm text-gray-600">Reports Filed</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                 <button onclick="window.app.showPage('report')" class="bg-white p-4 rounded-lg shadow glass text-center font-semibold text-green-800 hover:bg-green-50 transition-colors">Report Issue</button>
+                <button onclick="window.app.showPage('facility1')" class="bg-white p-4 rounded-lg shadow glass text-center font-semibold text-green-800 hover:bg-green-50 transition-colors">Facility Locator</button>
+                <button onclick="window.app.showPage('fines-rewards')" class="bg-white p-4 rounded-lg shadow glass text-center font-semibold text-green-800 hover:bg-green-50 transition-colors">Fines & Rewards</button>
+                <button onclick="window.app.showPage('marketplace')" class="bg-white p-4 rounded-lg shadow glass text-center font-semibold text-green-800 hover:bg-green-50 transition-colors">Marketplace</button>
+                <button onclick="window.app.showPage('training')" class="bg-white p-4 rounded-lg shadow glass text-center font-semibold text-green-800 hover:bg-green-50 transition-colors">Training Modules</button>
+                <button onclick="window.app.showPage('achievements')" class="bg-white p-4 rounded-lg shadow glass text-center font-semibold text-green-800 hover:bg-green-50 transition-colors">Achievements</button>
+                <button onclick="window.app.showPage('absence')" class="bg-white p-4 rounded-lg shadow glass text-center col-span-2 font-semibold text-green-800 hover:bg-green-50 transition-colors">Absence Management</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="report" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6">
+        <div class="w-full max-w-sm mx-auto">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800">Report Issue</h2>
+            </div>
+            <div class="bg-white glass p-6 rounded-lg shadow-md">
+                <select id="report-type" class="w-full p-3 border border-green-300 rounded mb-4 bg-white/50">
+                    <option>Select Issue Type</option>
+                    <option>Waste Dumping</option>
+                    <option>Drainage Issue</option>
+                    <option>Streetlight Outage</option>
+                    <option>Other</option>
+                </select>
+                <textarea id="report-desc" placeholder="Description" class="w-full p-3 border border-green-300 rounded mb-4 bg-white/50" rows="3"></textarea>
+                <input id="report-photo" type="file" class="w-full p-3 mb-4 text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100" />
+                <input id="report-loc" type="text" placeholder="Location (e.g., Near City Park)" class="w-full p-3 border border-green-300 rounded mb-4 bg-white/50" />
+                <button id="report-submit" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Submit</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="facility1" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh; min-height:0; max-height:calc(100dvh - 0px); overflow-y:auto; padding-bottom:120px;">
+         <div class="w-full max-w-md mx-auto">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800">Facility Locator</h2>
+            </div>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5017b966-3636-4360-876b-8459491ea493.png" alt="Map with dustbins and toilets" class="w-full rounded-lg shadow-md mx-auto mb-4" />
+            <div class="space-y-4 mb-4">
+                <div class="bg-white glass p-4 rounded-lg shadow">
+                    <h3 class="font-semibold text-green-800">Dustbin A</h3><p class="text-sm text-gray-600">Address: Barasat | Distance: 200m</p>
+                </div>
+                <div class="bg-white glass p-4 rounded-lg shadow">
+                    <h3 class="font-semibold text-green-800">Public Toilet B</h3><p class="text-sm text-gray-600">Address: Barrackpore | Distance: 500m</p>
+                </div>
+            </div>
+            <button class="w-full mt-6 mb-32 bg-green-600 text-white p-3 rounded hover:bg-green-700" onclick="window.app.showPage('facility2')">Next Page</button>
+        </div>
+    </div>
+
+    <div id="facility2" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh; min-height:0; max-height:calc(100dvh - 0px); overflow-y:auto; padding-bottom:120px;">
+    <div class="w-full max-w-md mx-auto">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('facility1')" class="text-green-800 mr-4" aria-label="Back to Facility Page 1"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800">Facility Locator</h2>
+            </div>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b0b2b691-0c02-48c1-b2a1-fd23b92efbd0.png" alt="City map with recycling centers" class="w-full rounded-lg shadow-md mx-auto mb-4" />
+            <div class="space-y-4 mb-32">
+                <div class="bg-white glass p-4 rounded-lg shadow flex items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0898a74f-908e-4aae-9f36-31775c2cc500.png" alt="Recycling icon" class="w-12 h-12 mr-4" />
+                    <div>
+                        <h3 class="font-semibold text-green-800">Recycling Center C</h3>
+                        <p class="text-sm text-gray-600">Address: Barasat</p>
+                    </div>
+                </div>
+                <div class="bg-white glass p-4 rounded-lg shadow flex items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/596725f3-1f1e-4b9a-88fd-71e08293e754.png" alt="Waste pickup icon" class="w-12 h-12 mr-4" />
+                    <div>
+                        <h3 class="font-semibold text-green-800">Waste Pickup Point D</h3>
+                        <p class="text-sm text-gray-600">Address: Barrackpore</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fines-rewards" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6">
+         <div class="w-full max-w-md mx-auto">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800">Fines & Rewards</h2>
+            </div>
+            <div class="flex justify-center mb-4 bg-green-200/50 rounded-lg p-1">
+                <button id="rewardsTabBtn" class="w-1/2 text-center py-2 rounded-md font-semibold text-green-800">Rewards</button>
+                <button id="finesTabBtn" class="w-1/2 text-center py-2 rounded-md font-semibold text-gray-600">Fines</button>
+            </div>
+            <div id="rewards-content" class="tab-content">
+                <div class="bg-white glass p-4 rounded-lg shadow text-center mb-4">
+                     <p class="text-sm text-gray-600">Total Eco Points</p>
+                     <p class="text-3xl font-bold text-green-700">150</p>
+                </div>
+                <div class="bg-white glass p-4 rounded-lg shadow">
+                    <h3 class="font-semibold text-green-800 mb-2">Leaderboard</h3>
+                    <ul>
+                        <li class="flex justify-between items-center py-1"><span class="text-gray-700">1. User1</span> <span class="font-bold text-green-600">200 pts</span></li>
+                        <li class="flex justify-between items-center py-1 bg-green-100/50 rounded px-2"><span class="text-green-800 font-bold">2. You</span> <span class="font-bold text-green-800">150 pts</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="fines-content" class="tab-content hidden">
+                <div class="bg-white glass p-4 rounded-lg shadow text-center mb-4">
+                     <p class="text-sm text-gray-600">Total Fine Due</p>
+                     <p class="text-3xl font-bold text-red-600">₹50</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-red-100/50 p-4 rounded-lg shadow-inner">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="font-semibold text-red-800">Illegal Dumping</h3>
+                                <p class="text-sm text-red-700">Status: Pending (₹20)</p>
+                            </div>
+                            <button onclick="alert('Fine Paid Successfully!')" class="bg-red-600 text-white px-4 py-1 rounded-full text-sm hover:bg-red-700">Pay</button>
+                        </div>
+                    </div>
+                    <div class="bg-orange-100/50 p-4 rounded-lg shadow-inner">
+                        <h3 class="font-semibold text-orange-800">Waste Overflow</h3><p class="text-sm text-orange-700">Status: Paid</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="marketplace" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6" style="height:100dvh; min-height:0; max-height:calc(100dvh - 0px); overflow-y:auto; padding-bottom:120px;">
+        <div class="w-full max-w-md mx-auto">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800">Marketplace</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-32" id="marketplace-items">
+                <div class="bg-white glass p-4 rounded-lg shadow text-center">
+                    <img src="assets/Brush.png" alt="cleaning brush" class="h-24 mx-auto mb-2" />
+                    <h3 class="font-semibold text-green-800">Cleaning Brush</h3>
+                    <p class="text-xs text-gray-700 mb-2">Price: ₹50</p>
+                    <button onclick="alert('Thank you for your purchase!')" class="w-full bg-blue-600 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-700">Buy Now</button>
+                </div>
+                <div class="bg-white glass p-4 rounded-lg shadow text-center">
+                    <img src="assets/Dustbin.png" alt="dustbin" class="h-24 mx-auto mb-2" />
+                    <h3 class="font-semibold text-green-800">Dustbin</h3>
+                    <p class="text-xs text-gray-700 mb-2">Price: ₹100</p>
+                    <button onclick="alert('Thank you for your purchase!')" class="w-full bg-blue-600 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-700">Buy Now</button>
+                </div>
+                <div class="bg-white glass p-4 rounded-lg shadow text-center">
+                    <img src="assets/gloves.png" alt="gloves" class="h-24 mx-auto mb-2" />
+                    <h3 class="font-semibold text-green-800">Gloves</h3>
+                    <p class="text-xs text-gray-700 mb-2">Price: ₹50</p>
+                    <button onclick="alert('Thank you for your purchase!')" class="w-full bg-blue-600 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-700">Buy Now</button>
+                </div>
+                </div>
+        </div>
+    </div>
+    
+    <div id="training" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6">
+        <div class="w-full max-w-md mx-auto">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800">Training Modules</h2>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-white glass p-4 rounded-lg shadow">
+                    <h3 class="font-semibold text-green-800">Waste Segregation</h3>
+                    <p class="text-sm text-gray-600 mb-2">Learn the basics of separating wet, dry, and hazardous waste.</p>
+                    <a href="https://www.youtube.com/watch?v=lFTf4wh93Gc" target="_blank" class="text-blue-600 hover:underline text-sm font-semibold">Watch Training Video <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                </div>
+                <div class="bg-white glass p-4 rounded-lg shadow">
+                    <h3 class="font-semibold text-green-800">Home Composting</h3>
+                    <p class="text-sm text-gray-600">A step-by-step guide to turning your kitchen scraps into valuable compost.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div id="achievements" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6">
+        <div class="w-full max-w-md mx-auto">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800 m-0">My Certificates</h2>
+            </div>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="bg-white glass p-4 rounded-xl shadow-lg flex flex-col items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/84f3c24d-89fd-43dc-84cb-b39aa21e67cd.png" alt="Certificate of achievement" class="mb-2 rounded w-32 h-32 object-contain" />
+                    <h3 class="text-lg font-bold text-green-800">Certificate 1</h3>
+                    <button onclick="alert('Certificate Downloaded!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2 hover:bg-green-700 transition-colors">Download</button>
+                </div>
+                <div class="bg-white glass p-4 rounded-xl shadow-lg flex flex-col items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0006d60a-8704-4c2e-8982-b2f9395b4a63.png" alt="Eco-friendly badge" class="mb-2 rounded w-32 h-32 object-contain" />
+                    <h3 class="text-lg font-bold text-green-800">Green Warrior Badge</h3>
+                    <button onclick="alert('Badge Downloaded!')" class="bg-green-600 text-white px-4 py-2 rounded mt-2 hover:bg-green-700 transition-colors">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="absence" class="page items-start bg-gradient-to-b from-green-100 to-blue-100 p-6">
+    <div class="w-full max-w-sm mx-auto">
+        <div class="flex items-center mb-6">
+            <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+            <h2 class="text-2xl font-bold text-green-800">Absence Management</h2>
+        </div>
+        <div class="bg-white glass p-6 rounded-lg shadow-md">
+            <h3 class="font-semibold text-green-800 mb-4">Apply for Absence</h3>
+            <label class="block mb-1 text-sm text-gray-700">From Date</label>
+            <input type="date" class="w-full p-2 rounded border border-green-300 mb-2 bg-white/50" />
+            <label class="block mb-1 text-sm text-gray-700">To Date</label>
+            <input type="date" class="w-full p-2 rounded border border-green-300 mb-4 bg-white/50" />
+            <input type="text" placeholder="Reason" class="w-full p-2 rounded border border-green-300 mb-4 bg-white/50" />
+            <button onclick="alert('Absence Recorded!')" class="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700">Submit</button>
+        </div>
+    </div>
+</div>
+    
+    <div id="help" class="page justify-center items-center bg-gradient-to-b from-green-100 to-blue-100 p-6">
+         <div class="w-full max-w-sm mx-auto text-center">
+            <div class="flex items-center mb-6">
+                <button onclick="window.app.showPage('dashboard')" class="text-green-800 mr-4" aria-label="Back to Dashboard"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
+                <h2 class="text-2xl font-bold text-green-800">Help & Support</h2>
+            </div>
+            <div class="bg-white glass p-6 rounded-lg shadow-md">
+                <p class="mb-2 text-green-700 font-semibold">Customer Care Email:</p>
+                <a href="mailto:swachhnagrik@gmail.com" class="mb-4 text-blue-700 underline block" target="_blank">swachhnagrik@gmail.com</a>
+                <p class="mb-2 text-green-700 font-semibold">Phone No:</p>
+                <a href="tel:7029553373" class="mb-4 text-blue-700 font-bold block" target="_blank">7029553373</a>
+            </div>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="bottom-nav flex justify-center items-center gap-5 bg-transparent shadow-none px-2 py-2 fixed" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 2147483647; display: none; pointer-events: none;">
+        <button onclick="window.app.showPage('dashboard')" class="flex items-center justify-center text-green-700 bg-white shadow-md rounded-full" style="width:54px; height:54px; pointer-events:auto; box-shadow:none; background:#fff; border:none;">
+            <i class="fas fa-home text-2xl"></i>
+        </button>
+        <button onclick="window.app.showPage('marketplace')" class="flex items-center justify-center text-green-700 bg-white shadow-md rounded-full" style="width:54px; height:54px; pointer-events:auto;">
+            <i class="fas fa-store text-2xl"></i>
+        </button>
+        <button onclick="window.app.showPage('report')" class="flex items-center justify-center text-green-700 bg-white shadow-md rounded-full" style="width:54px; height:54px; pointer-events:auto;">
+            <i class="fas fa-exclamation-triangle text-2xl"></i>
+        </button>
+        <button onclick="window.app.showPage('profile-view')" class="flex items-center justify-center text-green-700 bg-white shadow-md rounded-full" style="width:54px; height:54px; pointer-events:auto;">
+            <i class="fas fa-user text-2xl"></i>
+        </button>
+    </nav>
+
+<script>
+class SwachhNagrikApp {
+    constructor() {
+        this.state = {
+            currentPage: 'splash',
+            profile: null,
+            reports: [],
+            points: 0,
+        };
+        this.init();
+    }
+
+    init() {
+        // Bind `this` to event handlers
+        this.handleSendOtp = this.handleSendOtp.bind(this);
+        this.handleVerifyOtp = this.handleVerifyOtp.bind(this);
+        this.handleSaveProfile = this.handleSaveProfile.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
+        this.handleReportSubmit = this.handleReportSubmit.bind(this);
+        this.setupEventListeners();
+
+        // Load state from localStorage
+        this.loadState();
+        
+        // Initial render to ensure nav bar is hidden correctly from the start
+        this.render();
+
+        // Check login status and navigate
+        if (this.state.profile) {
+            this.showPage('dashboard');
+        } else {
+            setTimeout(() => this.showPage('login'), 3000);
+        }
+    }
+
+    // --- STATE MANAGEMENT ---
+    setState(newState) {
+        this.state = { ...this.state, ...newState };
+        this.saveState();
+        this.render();
+    }
+    
+    saveState() {
+        localStorage.setItem('swachh_profile', JSON.stringify(this.state.profile));
+        localStorage.setItem('swachh_reports', JSON.stringify(this.state.reports));
+        localStorage.setItem('swachh_points', this.state.points.toString());
+    }
+    
+    loadState() {
+        const profile = JSON.parse(localStorage.getItem('swachh_profile'));
+        const reports = JSON.parse(localStorage.getItem('swachh_reports')) || [];
+        const points = parseInt(localStorage.getItem('swachh_points'), 10) || 0;
+        
+        if (profile) {
+            this.state.profile = profile;
+            this.state.reports = reports;
+            this.state.points = points;
+        }
+    }
+    
+    clearState() {
+        localStorage.removeItem('swachh_profile');
+        localStorage.removeItem('swachh_reports');
+        localStorage.removeItem('swachh_points');
+        this.state = {
+            currentPage: 'login',
+            profile: null,
+            reports: [],
+            points: 0,
+        };
+    }
+    
+    // --- NAVIGATION ---
+    showPage(pageId) {
+        this.setState({ currentPage: pageId });
+    }
+
+    // --- UI RENDERING ---
+    render() {
+        // Show/hide pages
+        document.querySelectorAll('.page').forEach(p => {
+            p.classList.toggle('active', p.id === this.state.currentPage);
+        });
+
+        // Show nav bar only on main app pages
+        const nav = document.getElementById('bottom-nav');
+        const hideNavOn = ['splash', 'login', 'otp', 'profile-setup'];
+        if (nav) {
+            if (hideNavOn.includes(this.state.currentPage)) {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+            }
+        }
+
+        // Update dynamic content
+        if (this.state.profile) {
+            this.renderDashboard();
+            this.renderProfileView();
+        }
+    }
+
+    renderDashboard() {
+        document.getElementById('dashboard-welcome').textContent = `Welcome, ${this.state.profile.name.split(' ')[0]}!`;
+        document.getElementById('dashboard-points').textContent = this.state.points;
+        document.getElementById('dashboard-reports').textContent = this.state.reports.length;
+    }
+    
+    renderProfileView() {
+        document.getElementById('viewFullName').textContent = this.state.profile.name;
+        document.getElementById('viewEmail').textContent = this.state.profile.email;
+        document.getElementById('viewAddress').textContent = this.state.profile.address;
+        document.getElementById('viewPhone').textContent = this.state.profile.phone;
+    }
+
+    // --- EVENT LISTENERS ---
+    setupEventListeners() {
+        document.getElementById('sendOtpBtn').addEventListener('click', this.handleSendOtp);
+        document.getElementById('verifyBtn').addEventListener('click', this.handleVerifyOtp);
+        document.getElementById('saveProfileBtn').addEventListener('click', this.handleSaveProfile);
+        document.getElementById('logoutBtn').addEventListener('click', this.handleLogout);
+        document.getElementById('report-submit').addEventListener('click', this.handleReportSubmit);
+        
+        // OTP auto-focus
+        const otpInputs = document.querySelectorAll('#otp-inputs input');
+        otpInputs.forEach((input, idx) => {
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && idx < otpInputs.length - 1) {
+                    otpInputs[idx + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && idx > 0) {
+                    otpInputs[idx - 1].focus();
+                }
+            });
+        });
+        
+        // Fines/Rewards Tabs
+        const rewardsTabBtn = document.getElementById('rewardsTabBtn');
+        const finesTabBtn = document.getElementById('finesTabBtn');
+        const rewardsContent = document.getElementById('rewards-content');
+        const finesContent = document.getElementById('fines-content');
+
+        rewardsTabBtn.addEventListener('click', () => {
+            rewardsContent.classList.remove('hidden');
+            finesContent.classList.add('hidden');
+            rewardsTabBtn.classList.add('bg-white', 'text-green-800');
+            rewardsTabBtn.classList.remove('text-gray-600');
+            finesTabBtn.classList.remove('bg-white', 'text-green-800');
+            finesTabBtn.classList.add('text-gray-600');
+        });
+        
+        finesTabBtn.addEventListener('click', () => {
+            finesContent.classList.remove('hidden');
+            rewardsContent.classList.add('hidden');
+            finesTabBtn.classList.add('bg-white', 'text-green-800');
+            finesTabBtn.classList.remove('text-gray-600');
+            rewardsTabBtn.classList.remove('bg-white', 'text-green-800');
+            rewardsTabBtn.classList.add('text-gray-600');
+        });
+        // Set initial state for tabs
+        rewardsTabBtn.click();
+    }
+    
+    // --- EVENT HANDLERS ---
+    handleSendOtp() {
+        const phoneInput = document.getElementById('phone');
+        const errorEl = document.getElementById('error');
+        if (/^\d{10}$/.test(phoneInput.value)) {
+            // Store phone temporarily for profile creation
+            sessionStorage.setItem('swachh_phone', phoneInput.value);
+            errorEl.classList.add('hidden');
+            this.showPage('otp');
+        } else {
+            errorEl.classList.remove('hidden');
+        }
+    }
+
+    handleVerifyOtp() {
+        const otpInputs = document.querySelectorAll('#otp-inputs input');
+        const otp = Array.from(otpInputs).map(i => i.value).join('');
+        const otpErrorEl = document.getElementById('otpError');
+        if (otp === '1234') { // Mock OTP
+            otpErrorEl.classList.add('hidden');
+            this.showPage('profile-setup');
+        } else {
+            otpErrorEl.classList.remove('hidden');
+        }
+    }
+
+    handleSaveProfile() {
+        const name = document.getElementById('fullName').value;
+        const email = document.getElementById('email').value;
+        const address = document.getElementById('address').value;
+        const phone = sessionStorage.getItem('swachh_phone') || '';
+
+        if (!name || !email || !address) {
+            alert('Please fill all fields.');
+            return;
+        }
+
+        this.setState({
+            profile: { name, email, address, phone },
+            points: 0,
+            reports: []
+        });
+        sessionStorage.removeItem('swachh_phone');
+        this.showPage('dashboard');
+    }
+    
+    handleLogout() {
+        this.clearState();
+        this.showPage('login');
+    }
+    
+    handleReportSubmit() {
+        const type = document.getElementById('report-type').value;
+        const desc = document.getElementById('report-desc').value;
+        const loc = document.getElementById('report-loc').value;
+
+        if (type === 'Select Issue Type' || !desc || !loc) {
+            alert('Please fill all fields for the report.');
+            return;
+        }
+        
+        const newReport = { id: Date.now(), type, desc, loc, date: new Date().toLocaleString() };
+        
+        this.setState({
+            reports: [newReport, ...this.state.reports],
+            points: this.state.points + 10
+        });
+        
+        alert('Issue reported successfully! You earned 10 Eco Points.');
+        // Clear form
+        document.getElementById('report-type').selectedIndex = 0;
+        document.getElementById('report-desc').value = '';
+        document.getElementById('report-loc').value = '';
+        
+        this.showPage('dashboard');
+    }
+}
+
+// Expose the app instance to the window for inline `onclick` calls
+window.app = new SwachhNagrikApp();
+</script>
+
+</body>
+</html>
